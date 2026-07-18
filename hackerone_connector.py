@@ -12,7 +12,7 @@ import requests
 import json
 import os
 import re
-from urllib.parse import urlsplit
+from urllib.parse import quote, urlsplit
 
 
 class HackerOneConnector(BaseConnector):
@@ -403,7 +403,7 @@ class HackerOneConnector(BaseConnector):
                 }
             }
             url = "https://api.hackerone.com/v1/reports/{0}/issue_tracker_reference_id".format(
-                report_id
+                quote(report_id, safe="")
             )
             if self._post_rest_data(url, data):
                 self.__print("Successfully updated tracking id")
@@ -428,7 +428,9 @@ class HackerOneConnector(BaseConnector):
         report_id = self._handle_unicode_for_input_str(param.get("report_id"))
         try:
             data = {"data": {"type": "nobody"}}
-            url = "https://api.hackerone.com/v1/reports/{0}/assignee".format(report_id)
+            url = "https://api.hackerone.com/v1/reports/{0}/assignee".format(
+                quote(report_id, safe="")
+            )
             if self._put_rest_data(url, data):
                 self.__print("Successfully removed report assignment")
                 return action_result.set_status(
@@ -521,7 +523,10 @@ class HackerOneConnector(BaseConnector):
     def _get_complete_report(self, report_id):
         self.__print("_get_complete_report()")
         report, links = self._get_rest_data(
-            "https://api.hackerone.com/v1/reports/{0}".format(report_id), None
+            "https://api.hackerone.com/v1/reports/{0}".format(
+                quote(str(report_id), safe="")
+            ),
+            None,
         )
         report = self._parse_report(report)
         return report

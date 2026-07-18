@@ -12,6 +12,7 @@ import requests
 import json
 import os
 import re
+from urllib.parse import urlsplit
 
 
 class HackerOneConnector(BaseConnector):
@@ -123,6 +124,20 @@ class HackerOneConnector(BaseConnector):
 
     def _verify_server_cert(self):
         return self.get_config().get("verify_server_cert", True)
+
+    @staticmethod
+    def _is_hackerone_api_url(url):
+        try:
+            parsed = urlsplit(url)
+            return (
+                parsed.scheme == "https"
+                and parsed.hostname == "api.hackerone.com"
+                and parsed.port in (None, 443)
+                and parsed.username is None
+                and parsed.password is None
+            )
+        except ValueError:
+            return False
 
     def _get_phantom_data(self, endpoint):
         self.__print("Start: _get_phantom_data(): {0}".format(datetime.datetime.now()))
@@ -556,11 +571,16 @@ class HackerOneConnector(BaseConnector):
                         report_set.append(full_report)
                     else:
                         report_set.append(self._parse_report(report))
-                try:
-                    reports, links = self._get_rest_data(links["next"], None)
-                    self.__print("Next page")
-                except:
+                next_url = links.get("next") if links else None
+                if not next_url:
                     break
+                if not self._is_hackerone_api_url(next_url):
+                    self.__print(
+                        "Rejected pagination URL outside the HackerOne API origin"
+                    )
+                    return None
+                reports, links = self._get_rest_data(next_url, None)
+                self.__print("Next page")
             return report_set
         except Exception as e:
             err = self._get_error_message_from_exception(e)

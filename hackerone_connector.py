@@ -121,12 +121,17 @@ class HackerOneConnector(BaseConnector):
         HEADERS = {"ph-auth-token": config["phantom_api_token"]}
         return HEADERS
 
+    def _verify_server_cert(self):
+        return self.get_config().get("verify_server_cert", True)
+
     def _get_phantom_data(self, endpoint):
         self.__print("Start: _get_phantom_data(): {0}".format(datetime.datetime.now()))
         try:
             self.__print(endpoint)
             response = requests.get(
-                endpoint, headers=self._get_phantom_headers(), verify=False
+                endpoint,
+                headers=self._get_phantom_headers(),
+                verify=self._verify_server_cert(),
             )
             try:
                 content = json.loads(response.text)
@@ -163,7 +168,10 @@ class HackerOneConnector(BaseConnector):
         try:
             self.__print(url)
             response = requests.post(
-                url, headers=self._get_phantom_headers(), json=dictionary, verify=False
+                url,
+                headers=self._get_phantom_headers(),
+                json=dictionary,
+                verify=self._verify_server_cert(),
             )
             try:
                 content = json.loads(response.text)
@@ -199,7 +207,9 @@ class HackerOneConnector(BaseConnector):
         try:
             self.__print(url)
             response = requests.delete(
-                url, headers=self._get_phantom_headers(), verify=False
+                url,
+                headers=self._get_phantom_headers(),
+                verify=self._verify_server_cert(),
             )
             try:
                 content = json.loads(response.text)
@@ -243,11 +253,14 @@ class HackerOneConnector(BaseConnector):
                     auth=(u, p),
                     params=url_params,
                     headers=self._get_headers(),
-                    verify=False,
+                    verify=self._verify_server_cert(),
                 )
             else:
                 response = requests.get(
-                    url, auth=(u, p), headers=self._get_headers(), verify=False
+                    url,
+                    auth=(u, p),
+                    headers=self._get_headers(),
+                    verify=self._verify_server_cert(),
                 )
             try:
                 content = json.loads(response.text)
@@ -283,7 +296,7 @@ class HackerOneConnector(BaseConnector):
                 auth=(u, p),
                 headers=self._get_headers(),
                 json=dictionary,
-                verify=False,
+                verify=self._verify_server_cert(),
             )
             content = response.text
             code = response.status_code
@@ -314,7 +327,7 @@ class HackerOneConnector(BaseConnector):
                 auth=(u, p),
                 headers=self._get_headers(),
                 json=dictionary,
-                verify=False,
+                verify=self._verify_server_cert(),
             )
             content = response.text
             code = response.status_code

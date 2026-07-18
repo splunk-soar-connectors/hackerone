@@ -55,6 +55,12 @@
             "data_type": "password",
             "order": 6,
             "required": true
+        },
+        "verify_server_cert": {
+            "description": "Verify TLS certificates for HackerOne and Splunk SOAR requests",
+            "data_type": "boolean",
+            "order": 7,
+            "default": true
         }
     },
     "actions": [

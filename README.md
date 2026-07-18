@@ -21,6 +21,7 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 **assignment_filter** | optional | string | Filter for report assignment (to be used when polling) |
 **full_comments** | optional | boolean | Collect comments for reports (to be used when polling, much slower) |
 **phantom_api_token** | required | password | Phantom API token for updating existing containers |
+**verify_server_cert** | optional | boolean | Verify TLS certificates for HackerOne and Splunk SOAR requests |
 
 ### Supported Actions
 

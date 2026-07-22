@@ -43,3 +43,4 @@ jobs:
       CIRCUIT_CLIENT_ID: ${{ secrets.CIRCUIT_CLIENT_ID }}
       CIRCUIT_CLIENT_SECRET: ${{ secrets.CIRCUIT_CLIENT_SECRET }}
       CIRCUIT_APP_KEY: ${{ secrets.CIRCUIT_APP_KEY }}
+      

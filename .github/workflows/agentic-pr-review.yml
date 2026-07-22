@@ -1,16 +1,18 @@
-name: Reusable Push Workflow
+name: Reusable Push + Agentic PR Review
 
 on:
-  pull_request_target:
+  pull_request:
     types:
       - opened
+      - reopened
       - synchronize
+      - ready_for_review
 
 permissions:
   contents: read
 
 concurrency:
-  group: reusable-push-${{ github.event.pull_request.number }}
+  group: reusable-push-agentic-pr-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:

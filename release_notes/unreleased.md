@@ -1,0 +1,5 @@
+**Unreleased**
+
+* Enabled TLS certificate verification by default for HackerOne and Splunk SOAR requests while preserving an explicit opt-out.
+* Rejected pagination links outside the expected HackerOne API origin before sending credentials.
+* Encoded HackerOne report IDs as single URL path segments before API requests.

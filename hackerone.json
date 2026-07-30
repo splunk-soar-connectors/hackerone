@@ -15,7 +15,7 @@
     "min_phantom_version": "4.9.39220",
     "logo": "logo_hackerone.svg",
     "logo_dark": "logo_hackerone_dark.svg",
-    "license": "Copyright (c) 2020-2021 Splunk Inc.",
+    "license": "Copyright (c) 2020-2026 Splunk Inc.",
     "configuration": {
         "api_identifier": {
             "description": "HackerOne Identifier",
@@ -55,6 +55,12 @@
             "data_type": "password",
             "order": 6,
             "required": true
+        },
+        "verify_server_cert": {
+            "description": "Verify TLS certificates for HackerOne and Splunk SOAR requests",
+            "data_type": "boolean",
+            "order": 7,
+            "default": true
         }
     },
     "actions": [

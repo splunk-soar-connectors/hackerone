@@ -395,11 +395,11 @@ class HackerOneConnector(BaseConnector):
 
     def _update_tracking_id(self, param, action_result):
         self.__print("_update_tracking_id()")
-        report_id = validate_report_id(
-            self._handle_unicode_for_input_str(param.get("report_id"))
-        )
         tracking_id = self._handle_unicode_for_input_str(param.get("tracking_id"))
         try:
+            report_id = validate_report_id(
+                self._handle_unicode_for_input_str(param.get("report_id"))
+            )
             data = {
                 "data": {
                     "type": "issue-tracker-reference-id",
@@ -429,10 +429,10 @@ class HackerOneConnector(BaseConnector):
 
     def _unassign_report(self, param, action_result):
         self.__print("_unassign_report()")
-        report_id = validate_report_id(
-            self._handle_unicode_for_input_str(param.get("report_id"))
-        )
         try:
+            report_id = validate_report_id(
+                self._handle_unicode_for_input_str(param.get("report_id"))
+            )
             data = {"data": {"type": "nobody"}}
             url = "https://api.hackerone.com/v1/reports/{0}/assignee".format(
                 quote(report_id, safe="")
